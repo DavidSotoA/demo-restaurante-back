@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
-const PORT = process.env.PORT || 8000;
-app_1.default.listen(PORT, () => {
-    console.log('Express server listening on port ' + PORT);
+require('dotenv').config();
+app_1.default.listen(process.env.PORT, () => {
+    console.log('Express server listening on port ' + process.env.PORT);
 });
 //# sourceMappingURL=server.js.map
