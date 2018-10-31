@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const dbConnection_1 = require("../dbConnection");
+class TipoDeComidaController {
+    index(req, res) {
+        dbConnection_1.default.many("SELECT id, nombre, descripcion, imagen FROM tipo_de_comida")
+            .then(function (data) {
+            res.status(200).send({
+                tipos_de_comida: data
+            });
+        })
+            .catch(function (error) {
+            console.log("ERROR:", error);
+        });
+    }
+}
+exports.default = new TipoDeComidaController();
+//# sourceMappingURL=TipodeComidaController.js.map

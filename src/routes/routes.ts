@@ -1,8 +1,16 @@
-
-import {root} from '../controllers/home';
+import TipoDeComidaController from '../controllers/TipodeComidaController';
 
 export class Routes {
-    public setRoutes(app) : void {
-        app.route('/').get(root)
+
+    public tipoDeComidaRoute(app) {
+        const root  =   '/tipo-de-comidas',
+              index =   root;
+
+        app.route(index).get(TipoDeComidaController.index);
     }
+
+    public setRoutes(app) {
+        this.tipoDeComidaRoute(app);
+    }
+
 }

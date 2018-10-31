@@ -17,6 +17,7 @@
     "express": "^4.16.4",
     "mongoose": "^5.3.6",
     "nodemon": "^1.18.4",
+    "pg-promise": "^8.5.1",
     "typescript": "^3.1.3"
   }
 }

@@ -1,9 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const home_1 = require("../controllers/home");
+const TipodeComidaController_1 = require("../controllers/TipodeComidaController");
 class Routes {
+    tipoDeComidaRoute(app) {
+        const root = '/tipo-de-comidas', index = root;
+        app.route(index).get(TipodeComidaController_1.default.index);
+    }
     setRoutes(app) {
-        app.route('/').get(home_1.root);
+        this.tipoDeComidaRoute(app);
     }
 }
 exports.Routes = Routes;

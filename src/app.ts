@@ -4,7 +4,7 @@ import { Routes } from './routes/routes';
 
 require('dotenv').config();
 
-function cors(req, res, next) {
+function cors(req: Request, res, next) : void {
     if (process.env.ACTIVE_CORS) {
         res.header("Access-Control-Allow-Origin", "*");
     } else {
@@ -31,8 +31,6 @@ class App {
         this.app.use(bodyParser.json());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
-
-
     }
 
 }
