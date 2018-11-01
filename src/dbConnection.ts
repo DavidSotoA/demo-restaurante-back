@@ -9,7 +9,6 @@ var connection = {
     password: process.env.DB_PASSWORD
 };
 
-
 var db = pgp(connection);
 
 export default db;

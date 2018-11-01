@@ -15,10 +15,9 @@ function cors(req, res, next) {
 }
 class App {
     constructor() {
-        this.appRoutes = new routes_1.Routes;
         this.app = express();
         this.config();
-        this.appRoutes.setRoutes(this.app);
+        routes_1.default(this.app);
     }
     config() {
         // activar cors

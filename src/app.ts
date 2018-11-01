@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { Routes } from './routes/routes';
+import makeRoutes from './routes/routes';
+import TipoDeComidaController from './controllers/TipodeComidaController';
 
 require('dotenv').config();
 
@@ -16,15 +17,16 @@ function cors(req: Request, res, next) : void {
 class App {
 
     public app: express.Application;
-    public appRoutes: Routes = new Routes;
 
     constructor() {
         this.app = express();
-        this.config();        
-        this.appRoutes.setRoutes(this.app);
+        this.config();
+
+        makeRoutes(this.app);
     }
 
-    private config(): void{
+
+    private config(): void {
         // activar cors
         this.app.use(cors);
         // support application/json type post data

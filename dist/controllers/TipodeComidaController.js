@@ -13,6 +13,10 @@ class TipoDeComidaController {
             console.log("ERROR:", error);
         });
     }
+    show(req, res) { }
+    store(req, res) { }
+    update(req, res) { }
+    destroy(req, res) { }
 }
 exports.default = new TipoDeComidaController();
 //# sourceMappingURL=TipodeComidaController.js.map
