@@ -7,7 +7,7 @@ export default class TipoDeComida {
     id :number
 
     @Column()
-    nombre :string 
+    nombre :string
 
     @Column({ type: "text", nullable: true})
     descripcion :string
