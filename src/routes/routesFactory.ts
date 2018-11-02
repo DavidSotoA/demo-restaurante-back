@@ -10,10 +10,12 @@ class RoutesFactory {
 
     public addResource(url: string, controller: Controller): void {
         let index   =   url,
-            show    =   '',
+            show    =   `${url}/:id`,
             store   =   '',
             update  =   '',
             destroy =   ''
+        
+        controller.setUrl(url.slice(1, url.length));
         
         this._app.route(show).get   (controller.show);
         this._app.route(index).get  (controller.index);

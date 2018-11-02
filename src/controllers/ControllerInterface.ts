@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 
 export default interface Controller {
-    index   (req: Request, res: Response): void,
-    show    (req: Request, res: Response): void,
-    store   (req: Request, res: Response): void,
-    update  (req: Request, res: Response): void,
-    destroy (req: Request, res: Response): void,
+    setUrl  (url:  string);
+    index   (req: Request, res: Response),
+    show    (req: Request, res: Response),
+    store   (req: Request, res: Response),
+    update  (req: Request, res: Response),
+    destroy (req: Request, res: Response),
 }

@@ -1,22 +1,65 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dbConnection_1 = require("../dbConnection");
+const typeorm_1 = require("typeorm");
+const TipoDeComida_1 = require("../models/TipoDeComida");
+require('dotenv').config();
 class TipoDeComidaController {
+    constructor() {
+        this.repo = typeorm_1.getManager().getRepository(TipoDeComida_1.default);
+        this.index = this.index.bind(this);
+        this.show = this.show.bind(this);
+        this.store = this.store.bind(this);
+        this.update = this.update.bind(this);
+        this.destroy = this.destroy.bind(this);
+        this.setUrl = this.setUrl.bind(this);
+    }
+    setUrl(url) {
+        this.url = url;
+    }
     index(req, res) {
-        dbConnection_1.default.many("SELECT id, nombre, descripcion, imagen FROM tipo_de_comida")
-            .then(data => {
-            res.status(200).send({
-                tipos_de_comida: data
-            });
-        })
-            .catch(error => {
-            console.log("ERROR:", error);
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                var data = yield this.repo.find();
+                data = data.map(item => {
+                    item.link = `${process.env.DOMAIN}/${this.url}/${item.id}`;
+                    return item;
+                });
+                res.status(200).send(data);
+            }
+            catch (e) {
+                console.log(e);
+            }
         });
     }
-    show(req, res) { }
-    store(req, res) { }
-    update(req, res) { }
-    destroy(req, res) { }
+    show(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                let id = req.params.id;
+                let data = yield this.repo.find({ id: id });
+                res.status(200).send(data[0]);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        });
+    }
+    store(req, res) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    update(req, res) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
+    destroy(req, res) {
+        return __awaiter(this, void 0, void 0, function* () { });
+    }
 }
-exports.default = new TipoDeComidaController();
+exports.default = TipoDeComidaController;
 //# sourceMappingURL=TipodeComidaController.js.map

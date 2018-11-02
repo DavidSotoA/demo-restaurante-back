@@ -5,7 +5,8 @@ class RoutesFactory {
         this._app = app;
     }
     addResource(url, controller) {
-        let index = url, show = '', store = '', update = '', destroy = '';
+        let index = url, show = `${url}/:id`, store = '', update = '', destroy = '';
+        controller.setUrl(url.slice(1, url.length));
         this._app.route(show).get(controller.show);
         this._app.route(index).get(controller.index);
         this._app.route(store).get(controller.store);

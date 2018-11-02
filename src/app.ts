@@ -1,8 +1,8 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import makeRoutes from './routes/routes';
-import TipoDeComidaController from './controllers/TipodeComidaController';
-
+import {createConnection} from "typeorm";
+import "reflect-metadata";
 require('dotenv').config();
 
 function cors(req: Request, res, next) : void {
@@ -18,13 +18,19 @@ class App {
 
     public app: express.Application;
 
-    constructor() {
-        this.app = express();
-        this.config();
+    public createApp() {
 
-        makeRoutes(this.app);
+        createConnection().then( async connection => {
+            this.app = express();
+            this.config();
+            await makeRoutes(this.app);
+            this.app.listen(process.env.PORT, () => {
+                console.log('Express server listening on port ' + process.env.PORT);
+            })
+
+        })
+        
     }
-
 
     private config(): void {
         // activar cors
@@ -37,4 +43,4 @@ class App {
 
 }
 
-export default new App().app;
+export default new App();

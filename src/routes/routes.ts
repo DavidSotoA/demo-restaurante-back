@@ -1,10 +1,13 @@
-import Controller from '../controllers/ControllerInterface';
-
+import {getManager} from "typeorm";
 import Routes from './routesFactory';
 import TipoDeComidaController from '../controllers/TipodeComidaController';
 
-function makeRoutes(app) {
+
+export default async function makeRoutes(app) {
     let routes = new Routes(app);
+
+
+    let tipoDeComidaController = new TipoDeComidaController();
 
     /*
         Aca debajo van las rutas.
@@ -18,11 +21,7 @@ function makeRoutes(app) {
          * destroy
         
         Con el metodo addRoute se agrega otro metodo diferente a los metodos por defecto
-
     */
-    routes.addResource('/tipo-de-comidas', TipoDeComidaController);
+
+    routes.addResource('/tipo-de-comidas', tipoDeComidaController);
 }
-
-
-export default makeRoutes;
-
