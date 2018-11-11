@@ -1,41 +1,14 @@
-#!/bin/bash
-
-S="$(echo ${1:0:1} | tr '[A-Z]' '[a-z]')$(echo ${1:1})"
-
-echo "import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import Model from './ModelInterface';
-
-@Entity()
-export default class $1 implements Model {
-
-    @PrimaryGeneratedColumn()
-    id: number
-
-    public toString() {
-        return '$1'
-    }
-
-    public get_grapQl_type(): string {
-        return 'type $1 {}'
-    }
-
-    public get_grapQl_input(): string {
-        return 'input $1Input {}'
-    }
-
-}" > ./src/models/$1.ts
-
-echo "import { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import Controller from './ControllerInterface';
 import {getManager, getConnection} from 'typeorm';
-import $1 from '../models/$1';
+import Comida from '../models/Comida';
 
-class $1Controller implements Controller {
+class ComidaController implements Controller {
 
     private repo;
 
     constructor() {
-        this.repo = getManager().getRepository($1);
+        this.repo = getManager().getRepository(Comida);
 
         this.index      = this.index.bind(this);
         this.show       = this.show.bind(this);
@@ -67,9 +40,9 @@ class $1Controller implements Controller {
             let result = await getConnection()
                             .createQueryBuilder()
                             .insert()
-                            .into($1)
+                            .into(Comida)
                             .values([
-                                args.$S
+                                args.comida
                             ])
                             .execute();
 
@@ -84,8 +57,8 @@ class $1Controller implements Controller {
         try {
             let result = await getConnection()
                                 .createQueryBuilder()
-                                .update($1)
-                                .set(args.$S)
+                                .update(Comida)
+                                .set(args.comida)
                                 .where('id = :id', { id: args.id })
                                 .execute();
              
@@ -103,7 +76,7 @@ class $1Controller implements Controller {
            let result = await getConnection()
                                 .createQueryBuilder()
                                 .delete()
-                                .from($1)
+                                .from(Comida)
                                 .where('id = :id', { id: args.id })
                                 .execute();
             
@@ -115,5 +88,4 @@ class $1Controller implements Controller {
     }
 }
 
-export default $1Controller;" > ./src/controllers/$1Controller.ts;
-
+export default ComidaController;

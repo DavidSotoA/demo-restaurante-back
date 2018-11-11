@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
+import Model from "../models/ModelInterface";
 
 export default interface Controller {
-    setUrl  (url:  string);
-    index   (req: Request, res: Response),
-    show    (req: Request, res: Response),
-    store   (req: Request, res: Response),
-    update  (req: Request, res: Response),
-    destroy (req: Request, res: Response),
+    index   (),
+    show    (args: {id: number}),
+    store   (args: {resource: Model} ),
+    update  (args: {id: number, resource: Model}),
+    destroy (args: {id: number}),
 }

@@ -10,7 +10,7 @@ module.exports = {
    "synchronize":  true,
    "logging":      false,
    "entities": [
-      "./src/models/**/*.ts"
+        `./${process.env.NODE_ENV == "development" ? "src" : "dist" }/models/**/*.{ts,js}`
    ],
    "migrations": [
       "src/database/migrations/**/*.js"

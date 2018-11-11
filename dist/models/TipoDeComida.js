@@ -11,6 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let TipoDeComida = class TipoDeComida {
+    toString() {
+        return 'TipoDeComida';
+    }
+    get_grapQl_type() {
+        return `type TipoDeComida {
+            id: ID!
+            nombre: String!
+            descripcion: String
+            imagen: String
+        }`;
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),

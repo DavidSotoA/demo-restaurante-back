@@ -1,58 +1,91 @@
 import { Request, Response } from 'express';
 import Controller from './ControllerInterface';
-import {getManager} from "typeorm";
+import {getManager, getConnection} from "typeorm";
 import TipoDeComida from "../models/TipoDeComida";
-require('dotenv').config();
 
 class TipoDeComidaController implements Controller {
 
     private repo;
-    private url;
 
     constructor() {
-        this.repo = getManager().getRepository(TipoDeComida);
+        this.repo = getConnection().getRepository(TipoDeComida);
 
         this.index      = this.index.bind(this);
         this.show       = this.show.bind(this);
         this.store      = this.store.bind(this);
         this.update     = this.update.bind(this);
         this.destroy    = this.destroy.bind(this);
-        this.setUrl     = this.setUrl.bind(this);
     }
 
-    public setUrl(url: string) {
-        this.url = url;
-    }
 
-    async index(req: Request, res: Response) {
+    async index() {
         try {
-            var data = await this.repo.find();
-
-            data = data.map( item => {
-                item.link = `${process.env.DOMAIN}/${this.url}/${item.id}`
-                return item;
-            } )
-
-            res.status(200).send(data);
+            return await this.repo.find();
         } catch( e ) {
             console.log(e);
         }
     }
 
-    async show(req: Request, res: Response) {
+    async show(args: {id: number}) {
         try {
-            let id = req.params.id;
-            let data = await this.repo.find({id: id});
-            res.status(200).send(data[0]);
+            let x = await this.repo.find({id: args.id});
+            return x[0]
         } catch( e ) {
             console.log(e);
         }
     }
 
+    async store(args) {
+        try {
+            let result = await getConnection()
+                            .createQueryBuilder()
+                            .insert()
+                            .into(TipoDeComida)
+                            .values([
+                                args.tipoDeComida
+                            ])
+                            .execute();
 
-    async store(req: Request, res: Response) {}
-    async update(req: Request, res: Response) {}
-    async destroy(req: Request, res: Response) {}
+            let x = await this.repo.find({id: result.identifiers[0].id});
+            return x[0];
+        } catch( e ) {
+            console.log(e);
+        }
+    }
+
+    async update(args) {
+        try {
+            let result = await getConnection()
+                                .createQueryBuilder()
+                                .update(TipoDeComida)
+                                .set(args.tipoDeComida)
+                                .where("id = :id", { id: args.id })
+                                .execute();
+             
+            let x = await this.repo.find({id: args.id});
+            return x[0]
+         } catch( e ) {
+             console.log(e);
+         }
+    }
+
+    async destroy(args: {id: number}) {
+        try {
+           let x = await this.repo.find({id: args.id});
+
+           let result = await getConnection()
+                                .createQueryBuilder()
+                                .delete()
+                                .from(TipoDeComida)
+                                .where("id = :id", { id: args.id })
+                                .execute();
+            
+            return x[0]
+        } catch( e ) {
+            console.log(e);
+        }
+    }
+
 }
 
 export default TipoDeComidaController;

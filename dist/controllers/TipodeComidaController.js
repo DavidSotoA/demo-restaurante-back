@@ -11,6 +11,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const TipoDeComida_1 = require("../models/TipoDeComida");
 require('dotenv').config();
+// type Query {
+//     index_tipoDeComida(): [TipoDeComida],
+//     show_tipoDeComida(id: number): TipoDeComida,
+//   }
+// type Mutation {
+//     store_tipoDeComida(tipoDeComida: TipoDeComida): TipoDeComida
+//     update_tipoDeComida(id: number): TipoDeComida
+//     destroy_tipoDeComida(id: number): TipoDeComida
+// }
 class TipoDeComidaController {
     constructor() {
         this.repo = typeorm_1.getManager().getRepository(TipoDeComida_1.default);
@@ -27,12 +36,7 @@ class TipoDeComidaController {
     index(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                var data = yield this.repo.find();
-                data = data.map(item => {
-                    item.link = `${process.env.DOMAIN}/${this.url}/${item.id}`;
-                    return item;
-                });
-                res.status(200).send(data);
+                return yield this.repo.find();
             }
             catch (e) {
                 console.log(e);
